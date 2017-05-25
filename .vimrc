@@ -1,4 +1,4 @@
-source $VIMRUNTIME/defaults.vim
+"source $VIMRUNTIME/defaults.vim
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
@@ -76,11 +76,38 @@ function! SummarizeTabs()
 endfunction
 
 hi clear SpellBad
-hi clear SpellLocal
-hi clear SpellRare
+hi clear SpellLocal hi clear SpellRare
 hi clear SpellCap
 hi SpellBad cterm=underline
+hi link SpellCap Normal
 hi clear Conceal
 hi Conceal cterm=bold ctermbg=NONE ctermfg=darkblue
 let g:pandoc#syntax#conceal#blacklist = ["endashes", "emdashes", "ellipses"]
 let g:pandoc#keyboard#wrap_cursor = 1
+
+" Leader
+let mapleader = "\<Space>"
+
+nnoremap <Leader>wy viwy
+nnoremap <Leader>wp "_ciw<C-R>"<Esc>
+
+" Copy/Paste system clipboard
+vmap <Leader>y "+y
+vmap <Leader>d "+d
+nmap <Leader>p "+p
+nmap <Leader>P "+P
+vmap <Leader>p "+p
+vmap <Leader>P "+P
+
+" Cutting remaps
+nnoremap x "_x
+nnoremap d "_d
+nnoremap D "_D
+vnoremap d "_d
+nnoremap <leader>d ""d
+nnoremap <leader>D ""D
+vnoremap <leader>d ""d
+
+set wildmenu
+set wildmode=longest:list,full
+
