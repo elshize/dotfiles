@@ -1,11 +1,16 @@
 "source $VIMRUNTIME/defaults.vim
 
+set encoding=utf-8
+
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead
 else
   set backup		" keep a backup file (restore to previous version)
   if has('persistent_undo')
     set undofile	" keep an undo file (undo changes after closing)
+	set undodir=~/.vim/.undo//
+	set backupdir=~/.vim/.backup//
+	set directory=~/.vim/.swp//
   endif
 endif
 
@@ -40,6 +45,17 @@ Plug 'lervag/vimtex'
 Plug 'junegunn/goyo.vim'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'Valloric/YouCompleteMe'
+Plug 'dpelle/vim-LanguageTool'
+Plug 'tpope/vim-fugitive'
+Plug 'tmhedberg/SimpylFold'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'scrooloose/syntastic'
+Plug 'nvie/vim-flake8'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()
 
@@ -82,6 +98,7 @@ hi SpellBad cterm=underline
 hi link SpellCap Normal
 hi clear Conceal
 hi Conceal cterm=bold ctermbg=NONE ctermfg=darkblue
+hi BadWhitespace ctermbg=red
 let g:pandoc#syntax#conceal#blacklist = ["endashes", "emdashes", "ellipses"]
 let g:pandoc#keyboard#wrap_cursor = 1
 
@@ -100,14 +117,69 @@ vmap <Leader>p "+p
 vmap <Leader>P "+P
 
 " Cutting remaps
-nnoremap x "_x
-nnoremap d "_d
-nnoremap D "_D
-vnoremap d "_d
-nnoremap <leader>d ""d
-nnoremap <leader>D ""D
-vnoremap <leader>d ""d
+"nnoremap x "_x
+"nnoremap d "_d
+"nnoremap D "_D
+"vnoremap d "_d
+"nnoremap <leader>d ""d
+"nnoremap <leader>D ""D
+"vnoremap <leader>d ""d
+
+" Soft line break
+"vmap <C-j> gj
+"vmap <C-k> gk
+"vmap <C-4> g$
+"vmap <C-6> g^
+"vmap <C-0> g^
+"nmap <C-j> gj
+"nmap <C-k> gk
+"nmap <C-4> g$
+"nmap <C-6> g^
+"nmap <C-0> g^
+
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Python
+let g:ycm_autoclose_preview_window_after_completion=1
+map gd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+map gr  :YcmCompleter GoToReferences<CR>
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+if has("autocmd")
+  au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+  au BufRead,BufNewFile *.py,*.pyw,*.c,*.h set nu
+endif
 
 set wildmenu
 set wildmode=longest:list,full
 
+" Normalized pages count (1800 chars/page)
+command! Pages call Pages()
+function! Pages()
+	let pages = system("expr `cat ".bufname("%")." | wc -m` / 1800")
+    echohl ModeMsg
+	echo 'Normalized pages: '.pages
+    echohl None
+endfunction
+
+" Source the vimrc file after saving it
+if has("autocmd")
+  autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+
+let g:languagetool_jar='$HOME/languagetool/languagetool-commandline.jar'
+let g:SimpylFold_docstring_preview=1
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
+let g:airline_symbols_ascii = 1

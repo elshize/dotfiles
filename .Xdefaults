@@ -1,6 +1,5 @@
 #include ".Xdefaults.dark"
 
-#urxvt*font:             xft:DejaVu Sans Mono:pixelsize=12
 urxvt*font:             xft:Inconsolata:pixelsize=16
 URxvt*geometry:         120x50
 URxvt*urlLauncher:         qutebrowser  
