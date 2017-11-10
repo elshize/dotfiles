@@ -103,7 +103,7 @@ let g:pandoc#syntax#conceal#blacklist = ["endashes", "emdashes", "ellipses"]
 let g:pandoc#keyboard#wrap_cursor = 1
 
 " Leader
-let mapleader = "\<Space>"
+let mapleader = ","
 
 nnoremap <Leader>wy viwy
 nnoremap <Leader>wp "_ciw<C-R>"<Esc>

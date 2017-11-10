@@ -1,6 +1,6 @@
 set $mod Mod1
 
-font pango:Cantarell Bold 10
+font pango:Inconsolata Bold 12
 
 floating_modifier $mod
 
@@ -9,8 +9,8 @@ bindsym $mod+Return exec urxvt
 bindsym $mod+Shift+Return exec urxvt -lsp 12
 
 # start qutebrowser
-#bindsym $mod+q exec qutebrowser --backend webengine
-bindsym $mod+q exec QT_AUTO_SCREEN_SCALE_FACTOR=0 ~/PycharmProjects/qutebrowser/qutebrowser.py --backend webengine
+bindsym $mod+q exec qutebrowser --backend webengine
+bindsym $mod+x exec QT_AUTO_SCREEN_SCALE_FACTOR=0 ~/dev/qutebrowser/qutebrowser.py --backend webengine
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -68,16 +68,16 @@ bindsym $mod+a focus parent
 # focus the child container
 bindsym $mod+d focus child
 
-set $workspace1 "1: &#xf0ac;"
-set $workspace2 "2: &#xf120;"
-set $workspace3 "3: &#xf120;"
-set $workspace4 "4: &#xf109;"
-set $workspace5 "5: &#xf109;"
-set $workspace6 "6: &#xf26c;"
-set $workspace7 "7: &#xf15c;"
-set $workspace8 "8: &#xf0e0;"
-set $workspace9 "9: &#xf27b;"
-set $workspace10 "10: &#xf025;"
+set $workspace1 "1 &#xf0ac;"
+set $workspace2 "2 &#xf120;"
+set $workspace3 "3 &#xf120;"
+set $workspace4 "4 &#xf109;"
+set $workspace5 "5 &#xf109;"
+set $workspace6 "6 &#xf26c;"
+set $workspace7 "7 &#xf109;"
+set $workspace8 "8 &#xf109;"
+set $workspace9 "9 &#xf27b;"
+set $workspace10 "10 &#xf025;"
 
 # switch to workspace
 bindsym $mod+1 workspace $workspace1
@@ -116,7 +116,8 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym Mod1+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exit
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -140,33 +141,17 @@ mode "resize" {
         # back to normal: Enter or Escape
         bindsym Return mode "default"
         bindsym Escape mode "default"
-}
-
+} 
 bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-	font pango:Cantarell, Awesome 12
+	font pango:Roboto, Awesome 12
 	tray_padding 1
 	position top
 
 	status_command ~/builds/i3blocks-gaps/i3blocks
-	#status_command ~/dev/bumblebee-status/bumblebee-status \
-	#	-m  weather \
-	#		memory \
-	#		xrandr \
-	#		battery \
-	#		pasink \
-	#		date \
-	#		time \
-	#	-p  time.format="%-I:%M %p" \
-	#		date.format="%a, %b %d %Y" \
-	#		pasink.right-click="pavucontrol" \
-	#		date.left-click="bash .config/i3/gotowmail.sh" \
-	#		xrandr.middle-click="arandr" \
-	#		weather.unit="imperial" \
-	#	-t  solarized-powerline
 
 	colors {
 		background #002b36
@@ -176,33 +161,34 @@ bar {
 		active_workspace   #586e75 #586e75 #002b36
 		inactive_workspace #j02b36 #j02b36 #839496
 		urgent_workspace   #dc322f #dc322f #fdf6e3
-     }
+    }
 }
 
-client.focused          #002b36 #002b36 #fdf6e3 #268bd2
-client.focused_inactive #002b36 #073642 #839496 #073642
-client.unfocused        #002b36 #073642 #839496 #073642
+#client.focused          #002b36 #073642 #fdf6e3 #268bd2
+client.focused          #002b36 #004050 #fdf6e3 #268bd2
+client.focused          #002b36 #175782 #fdf6e3 #268bd2
+client.focused_inactive #002b36 #00323f #839496 #073642
+client.unfocused        #002b36 #00323f #839496 #073642
 client.urgent           #002b36 #dc322f #fdf6e3 #002b36
 
-new_window normal 0
-for_window [class="URxvt"] border none
-for_window [class="Termite"] border none
-for_window [class="qutebrowser"] border none
-for_window [class=".*"] title_format " <span color='#b58900'><b></b></span> %title"
-for_window [class="Pavucontrol"] floating enable
-for_window [class="Arandr"] floating enable
+new_window normal 3
+new_float pixel 3
+#for_window [class="(?i)URxvt"] border pixel 3
+#for_window [class=".*"] title_format " <span color='#b58900'><b></b></span> %title"
+for_window [class=".*"] title_format " %title"
+for_window [class="(?i)Pavucontrol"] floating enable
+for_window [class="(?i)Arandr"] floating enable
+#for_window [class="(?i)Qutebrowser"] border pixel 0
+hide_edge_borders both
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% && pkill -RTMIN+1 i3blocks #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% && pkill -RTMIN+1 i3blocks #decrease sound volume
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && pkill -RTMIN+1 i3blocks #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && pkill -RTMIN+1 i3blocks #decrease sound volume
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle && pkill -RTMIN+1 i3blocks # mute sound
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
-
-# Touchpad controls
-#bindsym XF86TouchpadToggle exec /some/path/toggletouchpad.sh # toggle touchpad
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -216,24 +202,19 @@ bindsym XF86Sleep exec systemctl suspend
 bindsym $mod+minus exec bash -c "xvkbd -xsendevent -utf16 -file ~/.config/i3/endash"
 bindsym $mod+Control+minus exec bash -c "xvkbd -xsendevent -utf16 -file ~/.config/i3/emdash"
 
-# Clipboard
-# ???
-
-exec_always --no-startup-id compton --config ~/.config/compton.conf
+# Launch on start
 # Start nm-applet twice to get rid of the loading cursor
 exec --no-startup-id nm-applet
 exec --no-startup-id nm-applet
 exec --no-startup-id dunst -config ~/.config/dunst.conf
 exec_always --no-startup-id setxkbmap pl -option caps:escape
-exec_always --no-startup-id feh --bg-scale ~/.config/wallpaper
+exec_always --no-startup-id feh --bg-scale ~/wallpapers/triangles.png
 exec --no-startup-id spotify
-#exec_always --no-startup-id xmodmap -e "clear lock" #disable caps lock switch
-#exec_always --no-startup-id xmodmap -e "keysym Caps_Lock = Escape" #set caps_lock as escape
 exec --no-startup-id insync start
 #exec_always --no-startup-id xrandr --output HDMI2 --auto
 exec_always --no-startup-id xrandr --output DP1 --dpi 100
+exec --no-startup-id redshift-gtk
 
-#exec_always --no-startup-id xrdb -merge ~/.Xresources
-
-gaps inner 15
+# Gaps
+gaps inner 0
 smart_gaps on
