@@ -56,12 +56,16 @@ Plug 'scrooloose/nerdtree'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'zah/nim.vim'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
+Plug 'jeaye/color_coded'
+Plug 'vim-scripts/utags'
 
 call plug#end()
 
 syntax enable
 
-set ts=4 sts=4 sw=4 noexpandtab
+set ts=4 sts=4 sw=4 expandtab
 
 " Set tabstop, softtabstop and shiftwidth to the same value
 command! -nargs=* Stab call Stab()
@@ -143,6 +147,8 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+nnoremap <C-]> :YcmCompleter GoTo<CR>
+
 " Python
 let g:ycm_autoclose_preview_window_after_completion=1
 map gd  :YcmCompleter GoToDefinitionElseDeclaration<CR>
@@ -157,9 +163,13 @@ if 'VIRTUAL_ENV' in os.environ:
   execfile(activate_this, dict(__file__=activate_this))
 EOF
 if has("autocmd")
-  au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-  au BufRead,BufNewFile *.py,*.pyw,*.c,*.h set nu
+  au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.cpp,*.hpp match BadWhitespace /\s\+$/
+  au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.cpp,*.hpp set nu
+  au BufRead,BufNewFile *.cpp,*.hpp set syntax=cpp11
 endif
+
+" C++
+let g:ycm_collect_identifiers_from_tags_files = 1
 
 set wildmenu
 set wildmode=longest:list,full
@@ -183,3 +193,9 @@ let g:SimpylFold_docstring_preview=1
 let g:airline_theme='solarized'
 let g:airline_solarized_bg='dark'
 let g:airline_symbols_ascii = 1
+
+map <C-K> :pyf /usr/share/clang/clang-format.py<cr>
+"imap <C-K> <c-o>:pyf <path-to-this-file>/clang-format.py<cr>
+nmap <C-A> :b#<cr>
+nmap gd :Gdiff<cr>
+nmap gs :Gstatus<cr>

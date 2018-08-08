@@ -4,8 +4,6 @@ urxvt*font:             xft:Inconsolata:pixelsize=16
 URxvt*geometry:         120x50
 URxvt*urlLauncher:         qutebrowser  
 URxvt*scrollBar:        false
-URxvt*scrollBar_right:        true
-URxvt*scrollColor:        #000000
 
 URxvt.perl-ext-common: selection-to-clipboard
 

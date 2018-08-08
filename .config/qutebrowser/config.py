@@ -7,7 +7,6 @@ PADDING = {
 c.auto_save.session = True
 c.downloads.position = 'bottom'
 c.spellcheck.languages = ['en-US', 'pl-PL']
-#c.content.headers.user_agent = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'
 c.content.headers.user_agent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.63 Safari/537.36'
 c.tabs.last_close = 'default-page'
 c.tabs.mousewheel_switching = False
@@ -16,18 +15,18 @@ c.tabs.padding = PADDING
 c.statusbar.padding = PADDING
 c.completion.scrollbar.padding = 4
 c.url.searchengines = {
-        'DEFAULT': 'https://duckduckgo.com/?q={}',
+        #'DEFAULT': 'https://duckduckgo.com/?q={}',
         # 'DEFAULT': 'https://www.ecosia.org/search?q={}',
-        'g': 'https://www.google.com/search?hl=en&q={}',
+        'DEFAULT': 'https://www.google.com/search?hl=en&q={}',
         's': 'https://scholar.google.com/scholar?hl=en&q={}'
 }
 
 # Colors
 c.colors.completion.odd.bg = '#002b36'
 c.colors.completion.even.bg = '#003b4a'
-c.colors.completion.category.bg = '#175782'
-c.colors.completion.category.border.top = '#175782'
-c.colors.completion.category.border.bottom = '#fff'
+c.colors.completion.category.bg = '#6c71c4'
+c.colors.completion.category.border.top = '#6c71c4'
+c.colors.completion.category.border.bottom = '#002b36'
 c.colors.completion.item.selected.bg = '#b58900'
 c.colors.statusbar.normal.bg = '#002b36'
 c.colors.statusbar.command.bg = '#002b36'
@@ -61,3 +60,7 @@ c.fonts.messages.info = 'bold 11pt monospace'
 for tabnum in range(10):
     config.bind('<Ctrl-{}>'.format(tabnum),
                 'tab-focus {}'.format(tabnum))
+config.unbind('<Ctrl-v>', mode='normal')
+config.unbind('<Ctrl-v>', mode='passthrough')
+config.bind('<Ctrl-p>', 'enter-mode passthrough', mode='normal')
+config.bind('<Ctrl-p>', 'enter-mode normal', mode='passthrough')
