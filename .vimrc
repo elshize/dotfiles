@@ -3,15 +3,15 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'adborden/vim-notmuch-address'
 Plug 'altercation/vim-colors-solarized'
 Plug 'bfrg/vim-cpp-modern'
-Plug 'dpelle/vim-LanguageTool'
+Plug 'christoomey/vim-system-copy'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/goyo.vim'
 Plug 'lervag/vimtex'
 Plug 'majutsushi/tagbar'
-" Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'rdnetto/YCM-Generator', { 'branch': 'stable'}
 Plug 'rhysd/vim-grammarous'
 Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -21,6 +21,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-syntax'
 Plug 'vim-scripts/greplace.vim'
+Plug 'tell-k/vim-autopep8'
 call plug#end()
 
 " General Settings
@@ -45,6 +46,7 @@ if has("autocmd")
   au FileType rust nmap <C-S-F> :RustFmt<CR>
   au FileType cpp map <C-S-F> :py3f /usr/share/clang/clang-format.py<cr>
   au bufwritepost .vimrc source $MYVIMRC
+  au FileType python noremap <buffer> <F8> :call Autopep8()<CR>
 endif " has("autocmd")
 
 " Syntax & Colors
@@ -111,7 +113,7 @@ function! Pages()
 endfunction
 
 " LanguageTool
-let g:languagetool_jar='$HOME/languagetool/languagetool-commandline.jar'
+let g:languagetool_jar="$HOME/languagetool/languagetool-commandline.jar"
 
 " Notmuch
 let g:notmuch_custom_search_maps = {
@@ -122,3 +124,15 @@ let g:notmuch_custom_show_maps = {
     \ 't':		'show_tag("+to-do -inbox")',
     \ 'd':		'show_tag("+deleted -inbox -unread")',
     \ }
+
+" System-Copy
+let g:system_copy#copy_command='xclip -sel clipboard'
+let g:system_copy#paste_command='xclip -sel clipboard -o'
+
+" autopep8
+let g:autopep8_disable_show_diff=1
+
+" gvim
+if has("gui_running")
+    set guifont=Inconsolata\ 16
+endif
